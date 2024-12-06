@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>  
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasbga yo'naltirish testi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #1d3a99;
+            color: #fff;
+        }
+        .container {
+            max-width: 90%;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            font-size: 24px;
+            color: #3d3b3b;
+        }
+        .zor {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: #333 2px solid;
+            border-radius: 10px;
+            color: #333;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: rgb(37, 36, 36);
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            background-color: #054f99;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-align: center;
+        }
+        .options button:hover {
+            background-color: #03264c;
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            header h1 {
+                font-size: 20px;
+            }
+            .options button {
+                font-size: 14px;
+                padding: 10px;
+            }
+            .zor {
+                padding: 15px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Тест по профессиональной ориентации по методу Е.А. Климовой.</h1>
+        </header>
+        <div id="quiz">
+            <div class="question" id="question">Вопрос появится здесь</div>
+            <div class="options" id="options"></div>
+        </div>
+        <div id="result" class="result" style="display: none;"></div>
+        <div class="zor">
+            <h4>Средства профессиональной ориентации</h4>
+            <p>Выберите профессию в зависимости от вашего интереса к школьным предметам. Выберите профессию в зависимости от объекта работы. Проконсультируйтесь с профессионалом. Анализируйте скрытые желания и возможности со всех сторон, прежде чем выбрать профессию.</p>
+        </div>
+    </div>
+
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const questions = [
+    {
+        text: "1) Что вы предпочитаете?",
+        options: ["A) Ухаживать за животными (кормить, заботиться)", "B) Обслуживать механизмы и приборы"],
+        resultImpact: { A: "Человек-природа", B: "Человек-техника" }
+    },
+    {
+        text: "2) Что вы предпочитаете?",
+        options: ["Помогать больным людям, лечить их", "Разрабатывать программы для таблиц, схем, расчетов"],
+        resultImpact: { A: "Человек-человек", B: "Человек-знаковая система" }
+    },
+    {
+        text: "3) Что вы предпочитаете?",
+        options: ["Следить за качеством книг, плакатов, художественных открыток, грампластинок", "Наблюдать за состоянием растений"],
+        resultImpact: { A: "Человек-художественный образ", B: "Человек-природа" }
+    },
+    {
+        text: "4) Что вы предпочитаете?",
+        options: ["Производить материалы", "Рекламировать и продавать товары"],
+        resultImpact: { A: "Человек-техника", B: "Человек-человек" }
+    },
+    {
+        text: "5) Что вы предпочитаете?",
+        options: ["Обсуждать научно-популярные книги и статьи", "Обсуждать художественные книги"],
+        resultImpact: { A: "Человек-знаковая система", B: "Человек-художественный образ" }
+    },
+    {
+        text: "6) Что вы предпочитаете?",
+        options: ["Выращивать молодых животных любого вида", "Учить ровесников (или младших) выполнять различные виды деятельности (труд, учёба, спорт)"],
+        resultImpact: { A: "Человек-природа", B: "Человек-человек" }
+    },
+    {
+        text: "7) Что вы предпочитаете?",
+        options: ["Редактировать чертежи, изображения, настраивать музыкальные инструменты", "Управлять грузами или средствами транспортировки (кран, трактор)"],
+        resultImpact: { A: "Человек-художественный образ", B: "Человек-техника" }
+    },
+    {
+        text: "8) Что вы предпочитаете?",
+        options: ["Информировать и объяснять людям нужную информацию (на информационных стендах, экскурсиях и т. д.)", "Участвовать в художественном проектировании выставок, витрин, подготовке спектаклей и концертов"],
+        resultImpact: { A: "Человек-человек", B: "Человек-художественный образ" }
+    },
+    {
+        text: "9) Что вы предпочитаете?",
+        options: ["Ремонтировать предметы, вещи (одежда, мебель), дома", "Находить и исправлять ошибки в текстах, таблицах, рисунках"],
+        resultImpact: { A: "Человек-техника", B: "Человек-знаковая система" }
+    },
+    {
+        text: "10) Что вы предпочитаете?",
+        options: ["Лечить животных", "Выполнять расчёты и вести учёт"],
+        resultImpact: { A: "Человек-природа", B: "Человек-знаковая система" }
+    },
+    {
+        text: "11) Что вы предпочитаете?",
+        options: ["Разводить новые сорта растений", "Проектировать и разрабатывать новые виды промышленных товаров (автомобили, одежда, дома, продукты питания)"],
+        resultImpact: { A: "Человек-природа", B: "Человек-техника" }
+    },
+    {
+        text: "12) Что вы предпочитаете?",
+        options: ["Разрешать конфликты, споры, убеждать, объяснять, мотивировать, наказывать", "Понимать чертежи, диаграммы, таблицы (проверять, уточнять, упорядочивать)"],
+        resultImpact: { A: "Человек-человек", B: "Человек-знаковая система" }
+    },
+    {
+        text: "13) Что вы предпочитаете?",
+        options: ["Наблюдать и изучать деятельность художественных любительских коллективов", "Наблюдать и изучать жизнь микроорганизмов"],
+        resultImpact: { A: "Человек-художественный образ", B: "Человек-природа" }
+    },
+    {
+        text: "14) Что вы предпочитаете?",
+        options: ["Хранить и настраивать медицинские инструменты и оборудование", "Предоставлять первую помощь людям при травмах, ушибах, ожогах и т. д."],
+        resultImpact: { A: "Человек-знаковая система", B: "Человек-природа" }
+    },
+    {
+        text: "15) Что вы предпочитаете?",
+        options: ["Составлять точные описания наблюдаемых событий, объектов (отчёты)", "Создавать художественные описания или изображения наблюдаемых или воображаемых событий"],
+        resultImpact: { A: "Человек-природа", B: "Человек-человек" }
+    },
+    {
+        text: "16) Что вы предпочитаете?",
+        options: ["Проводить лабораторные исследования в больнице", "Принимать больных, проводить осмотры, общаться с ними, назначать лечение"],
+        resultImpact: { A: "Человек-ремесленное искусство", B: "Человек-техника" }
+    },
+    {
+        text: "17) Что вы предпочитаете?",
+        options: ["Красить стены зданий, поверхности изделий", "Собирать здания или конструкции, а также механизмы и оборудование"],
+        resultImpact: { A: "Человек-техника", B: "Человек-ремесленное искусство" }
+    },
+    {
+        text: "18) Что вы предпочитаете?",
+        options: ["Организовывать культурные поездки для ровесников или младших товарищей (театры, музеи, экскурсии, пешие прогулки и т. д.)", "Играть на сцене, участвовать в концертах"],
+        resultImpact: { A: "Искусство и культура", B: "Сценическое искусство" }
+    },
+    {
+        text: "19) Что вы предпочитаете?",
+        options: ["Изготавливать детали (автомобили, одежду) по чертежам, строить здания", "Копировать чертежи, карты"],
+        resultImpact: { A: "Строительство и дизайн", B: "Графика и черчение" }
+    },
+    {
+        text: "20) Что вы предпочитаете?",
+        options: ["Сражаться с болезнями растений, вредителями леса и сада", "Управлять машинописью на клавиатуре"],
+        resultImpact: { A: "Человек-природа", B: "Человек-техника" }
+    }
+];
+
+
+            let currentQuestion = 0;
+            const questionEl = document.getElementById('question');
+            const optionsEl = document.getElementById('options');
+            const resultEl = document.getElementById('result');
+            const resultCounts = {}; // Счетчик для результатов
+
+            // Показывает текущий вопрос
+            function showQuestion() {
+                if (currentQuestion < questions.length) {
+                    const question = questions[currentQuestion];
+                    questionEl.textContent = question.text;
+
+                    optionsEl.innerHTML = ''; // Очистить предыдущие варианты ответов
+                    question.options.forEach((option, index) => {
+                        const button = document.createElement('button');
+                        button.textContent = option;
+                        button.addEventListener('click', () => {
+                            handleAnswer(index);
+                        });
+                        optionsEl.appendChild(button);
+                    });
+                } else {
+                    showResult();
+                }
+            }
+
+            // Обработка выбранного ответа
+            function handleAnswer(selectedIndex) {
+                const question = questions[currentQuestion];
+                const key = Object.keys(question.resultImpact)[selectedIndex];
+                const result = question.resultImpact[key];
+
+                // Подсчёт результатов
+                resultCounts[result] = (resultCounts[result] || 0) + 1;
+
+                currentQuestion++;
+                showQuestion();
+            }
+
+            // Показывает результаты теста
+            function showResult() {
+                questionEl.style.display = 'none';
+                optionsEl.style.display = 'none';
+                resultEl.style.display = 'block';
+                resultEl.textContent = 'Тест окончен! Спасибо за ваше участие.';
+
+                // Отображаем результаты с процентами
+                for (const [key, value] of Object.entries(resultCounts)) {
+                    const percentage = Math.round((value / questions.length) * 100);
+                    const resultItem = document.createElement('div');
+                    resultItem.textContent = `${key}: ${percentage}%`;
+                    resultEl.appendChild(resultItem);
+                }
+            }
+
+            showQuestion(); // Вызов первого вопроса
+        });
+    </script>
+</body>
+</html>
